@@ -47,6 +47,8 @@ namespace Fisher.Bookstore.Api.Controllers
         public IActionResult Get ()
         {
             return Ok(db.Books);
+
+        {}
         }
     }
 }
