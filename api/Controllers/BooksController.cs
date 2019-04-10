@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Fisher.Bookstore.Models;
 using Microsoft.AspNetCore.Mvc;
 using Fisher.Bookstore.Api.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fisher.Bookstore.Api.Controllers
 {
@@ -12,9 +13,9 @@ namespace Fisher.Bookstore.Api.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly BookstoreContext db;
+        private readonly Data.BookstoreContext db;
 
-        public BooksController(BookstoreContext db)
+        public BooksController(Data.BookstoreContext db)
         {
             this.db = db;
             if (this.db.Books.Count() == 0)
@@ -72,7 +73,7 @@ namespace Fisher.Bookstore.Api.Controllers
 
             return Ok(book);
         }
-
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody]Book book)
         {
@@ -86,6 +87,7 @@ namespace Fisher.Bookstore.Api.Controllers
 
             return CreatedAtRoute("GetBook", new {id = book.Id}, book);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]Book book)
         {
@@ -108,7 +110,7 @@ namespace Fisher.Bookstore.Api.Controllers
 
             return NoContent();
         }
-
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
